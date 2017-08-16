@@ -38,16 +38,10 @@ public class PaymentPage {
     @FindBy(css = ".form-field.payment-passenger-last-name input")
     private List<WebElement> passengerLastName;
 
-    @FindBy(css = ".form-field.payment-passenger-last-name input")
-    private List<WebElement> childFirstName;
-
-    @FindBy(css = ".form-field.payment-passenger-last-name input")
-    private List<WebElement> childLastName;
-
-    @FindBy(css = "[name='phoneNumberCountry']")
+    @FindBy(css = "div.phone-number-country")
     private WebElement phoneNumberCountry;
 
-    @FindBy(css = "[label='+country+']")
+    @FindBy(css = "div.core-select option[label='Germany']")
     private WebElement chooseCountry;
 
     @FindBy(css = ".phone-number [name='phoneNumber']")
@@ -65,10 +59,10 @@ public class PaymentPage {
     @FindBy(css = "[name='expiryMonth']")
     private WebElement cardExpiryMonth;
 
-    @FindBy(css = "[value='number:'+month+'']")
+    @FindBy(css = "div.core-select option[label='10']")
     private WebElement chooseMonthOfExpiration;
 
-    @FindBy(css = "[value='number:'+year+'']")
+    @FindBy(css = "div.core-select option[label='2018']")
     private WebElement chooseYearOfExpiration;
 
     @FindBy(css = "[name='expiryYear']")
@@ -77,7 +71,7 @@ public class PaymentPage {
     @FindBy(css = ".core-input.ng-pristine.ng-untouched.ng-empty.ng-invalid.ng-invalid-required.ng-valid-pattern.ng-valid-minlength.ng-valid-maxlength")
     private WebElement securityCode;
 
-    @FindBy(css = "[name='cardHolderName']")
+    @FindBy(css = "div.full-width-form.payment-input input[name='cardHolderName']")
     private WebElement cardHoldersName;
 
     @FindBy(css = "[name='billingAddressAddressLine1']")
@@ -92,7 +86,7 @@ public class PaymentPage {
     @FindBy(css = "[name='billingAddressPostcode']")
     private WebElement billingAddressPostcode;
 
-    @FindBy(css = "[name='billingAddressCountry']")
+    @FindBy(css = "div.form-field.country option[label='Germany']")
     private WebElement billingAddressCountry;
 
     @FindBy(css = "[name='acceptPolicy']")
@@ -118,26 +112,48 @@ public class PaymentPage {
         loginButton.click();
     }
 
-    public void passengerDetails() {
+    public void passengerDetails() throws InterruptedException {
+        Thread.sleep(1000);
         Select titleDropDown = new Select(passengerTitle.get(0));
         titleDropDown.selectByValue("string:MR");
+        wait.until(ExpectedConditions.elementToBeClickable(passengerFirstName.get(0)));
         passengerFirstName.get(0).sendKeys("Vanja");
         passengerLastName.get(0).sendKeys("Franjic");
+        Select title1DropDown = new Select(passengerTitle.get(1));
+        title1DropDown.selectByValue("string:MRS");
         passengerFirstName.get(1).sendKeys("Tijana");
         passengerLastName.get(1).sendKeys("Franjic");
-        //childFirstName.get(3).sendKeys("John");
-        //childLastName.get(3).sendKeys("Doe");
+        passengerFirstName.get(2).sendKeys("Filip");
+        passengerLastName.get(2).sendKeys("Franjic");
     }
 
     public void paymentAndContactDetails() {
         phoneNumberCountry.click();
         chooseCountry.click();
-        phoneNumber.click();
+        phoneNumber.sendKeys("40 3174052");
+        cardNumber.sendKeys("5555555555555557");
+        cardType.click();
+        chooseMasterCard.click();
+        cardExpiryMonth.click();
+        chooseMonthOfExpiration.click();
+        cardExpiryYear.click();
+        chooseYearOfExpiration.click();
+        securityCode.sendKeys("265");
+        cardHoldersName.sendKeys("Vanja");
+        billingAddress1.sendKeys("Reeperbahn 147");
+        billingAddress2.sendKeys("Reeperbahn 149");
+        billingAddressCity.sendKeys("Hamburg");
+        billingAddressPostcode.sendKeys("20359");
+        billingAddressCountry.click();
+        acceptTermsOfService.click();
+        payNow.click();
     }
 
     public boolean errorMessage() {
-        return paymentUnauthorized.getText().toString().contains
-                ("As your payment was not authorised we could not complete your reservation. " +
-                        "Please ensure that the information was correct or use a new payment to try again");
+        if (paymentUnauthorized.getText().toString().contains("As your payment was not authorised we could not complete your reservation." +
+                "Please ensure that the information was correct or use a new payment to try again")) return true;
+        else {
+            return false;
+        }
     }
 }

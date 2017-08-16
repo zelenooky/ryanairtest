@@ -41,17 +41,16 @@ public class BookingProcess {
         paymentPage = PageFactory.initElements(driver, PaymentPage.class);
         paymentPage.loginRyanAir();
         paymentPage.passengerDetails();
-        paymentPage.paymentAndContactDetails();
-        paymentPage.errorMessage();
+
     }
 
     @When("^I pay for booking with card details “(\\d+)”, “(\\d+)/(\\d+)” and “(\\d+)”$")
-    public void iPayForBookingWithCardDetailsAnd(int arg0, int arg1, int arg2, int arg3) throws Throwable {
-
+    public void iPayForBookingWithCardDetailsAnd(int cardnumber, int month, int year, int code) throws Throwable {
+        paymentPage.paymentAndContactDetails();
     }
 
     @Then("^I should get payment declined message$")
     public void iShouldGetPaymentDeclinedMessage() throws Throwable {
-
+        paymentPage.errorMessage();
     }
 }
