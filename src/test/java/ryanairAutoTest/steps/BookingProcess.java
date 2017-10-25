@@ -31,7 +31,6 @@ public class BookingProcess {
         mainPage.selectAdultsAndChildren();
         mainPage.submitButtonLetsGo();
         bookingPage = PageFactory.initElements(driver, BookingPage.class);
-        bookingPage.continueSearch();
         bookingPage.fromPayButton();
         bookingPage.selectStandardFare();
         bookingPage.continueToExtraPage();
