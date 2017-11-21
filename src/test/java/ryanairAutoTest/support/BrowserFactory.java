@@ -55,7 +55,7 @@ public class BrowserFactory {
     private static WebDriver createIEDriver(String url) {
         DesiredCapabilities cap = DesiredCapabilities.internetExplorer();
         cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-        System.setProperty("webdriver.ie.driver", "C:\\Selenium\\IEdriver\\IEDriverServer.exe");
+        System.setProperty("webdriver.ie.driver", "C:\\webdrivers\\iedriver\\IEDriverServer.exe");
         WebDriver driver = new InternetExplorerDriver(cap);
         driver.get(url);
         driver.navigate().to("javascript:document.getElementById('overridelink').click()");
@@ -63,7 +63,7 @@ public class BrowserFactory {
     }
 
     private static WebDriver createChromeDriver(String url) {
-        System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\webdrivers\\chromedriver\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.get(url);
         return driver;
@@ -75,7 +75,7 @@ public class BrowserFactory {
         FirefoxProfile myProfile = profile.getProfile("default");
         myProfile.setAcceptUntrustedCertificates(true);
         myProfile.setAssumeUntrustedCertificateIssuer(false);
-        System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\firefoxdriver\\geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver", "C:\\webdrivers\\marionette\\geckodriver.exe");
         WebDriver driver = new FirefoxDriver();
         driver.get(url);
         return driver;
